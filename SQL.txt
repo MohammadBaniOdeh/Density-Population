@@ -1,0 +1,102 @@
+
+CREATE TABLE Sections
+(
+  section_id int NOT NULL,
+  name varchar2(15) NOT NULL,
+  location varchar2(20),
+  workers# int,
+  PRIMARY KEY (section_id)
+);
+
+CREATE TABLE Workers
+(
+  worker_id int NOT NULL,
+  first_name varchar2(10) NOT NULL,
+  middle_name varchar2(10) NOT NULL,
+  last_name varchar2(10),
+  phone# int,
+  section_id int ,
+  PRIMARY KEY (worker_id)
+);
+
+CREATE TABLE Collecters
+(
+  town_id INT ,
+  communication_skills varchar2(15),
+  worker_id INT NOT NULL,
+  PRIMARY KEY (worker_id)
+);
+
+CREATE TABLE Data_Entry
+(
+  type_Speed varchar2(12),
+  worker_id INT NOT NULL,
+  PRIMARY KEY (worker_id)
+  
+);
+
+CREATE TABLE Towns
+(
+  town_id INT NOT NULL,
+  name varchar2(22) NOT NULL,
+  mayor_name varchar2(15) NOT NULL,
+  mayor_id INT NOT NULL,
+  number_of_streets INT ,
+  town_area INT not null,
+  persons# INT not null,
+  PRIMARY KEY (town_id)
+);
+
+CREATE TABLE Streets
+(
+  name varchar2(15),
+  street_id INT NOT NULL,
+  town_id INT NOT NULL,
+  Number_of_houses INT,
+  PRIMARY KEY (street_id)
+
+);
+
+CREATE TABLE Houses
+(
+  house_id INT NOT NULL,
+  street_id INT NOT NULL,
+  persons# INT NOT NULL,
+  PRIMARY KEY (house_id)
+);
+
+CREATE TABLE Persons
+(
+  person_id INT NOT NULL,
+  first_name varchar2(15) NOT NULL,
+  last_name varchar2(15) NOT NULL,
+  job_id INT,
+  house_id INT NOT NULL,
+  age INT ,
+  gender char(1),
+  PRIMARY KEY (person_id)
+);
+
+CREATE TABLE job
+(
+  Job_id INT NOT NULL,
+  persons# INT NOT NULL,
+  PRIMARY KEY (Job_id)
+);
+
+
+CREATE TABLE Populated_Density
+(
+town_id int not null,
+density int not null,
+primary key(town_id,density)
+);
+Alter table workers add (constraint s foreign key(section_id) references sections(section_id));
+Alter table data_entry add (constraint s2 foreign key(worker_id) references workers(worker_id));
+Alter table collecters add (constraint s3 foreign key(worker_id) references workers(worker_id));
+Alter table collecters add (constraint s4 foreign key(town_id) references towns(town_id));
+Alter table populated_density add (constraint s5 foreign key(town_id) references towns(town_id));
+Alter table streets add (constraint s6 foreign key(town_id) references towns(town_id));
+Alter table houses add (constraint s7 foreign key(street_id) references streets(street_id));
+Alter table persons add (constraint s8 foreign key(house_id) references houses(house_id));
+Alter table persons add (constraint s9 foreign key(job_id) references job(job_id));
